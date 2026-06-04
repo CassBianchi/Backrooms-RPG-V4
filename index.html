@@ -1,4 +1,1314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nenhum de Nós Saiu — Material do Mestre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Share+Tech+Mono&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --am:#C8A84B;--am2:#8a7030;--am3:#2a2008;--am4:#1a1505;
+  --bg:#0a0905;--bg2:#111009;--bg3:#181610;--bg4:#201e14;--bg5:#282518;
+  --bd:#28250f;--bd2:#38340f;--bd3:#484520;
+  --tx:#b0a070;--tx2:#6a6030;--tx3:#d8c890;
+  --wh:#f0e0b8;
+  --g:#101e10;--gb:#286028;--gt:#48a848;
+  --y:#201808;--yb:#a07010;--yt:#c89820;
+  --r:#1e0808;--rb:#802020;--rt:#c02828;
+  --b:#080e18;--bb:#104060;--bt:#2878b8;
+  --pu:#100818;--pub:#402060;--put:#8050b8;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
 
+/* ═══ WALLPAPER BACKGROUND ══════════════════ */
+body{
+  font-family:'Crimson Pro',Georgia,serif;
+  background-color:var(--bg);
+  color:var(--tx);
+  line-height:1.7;
+  overflow-x:hidden;
+  min-height:100vh;
+  position:relative;
+}
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,transparent 59px,
+      rgba(200,168,75,0.04) 60px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,transparent 59px,
+      rgba(200,168,75,0.04) 60px
+    );
+  background-size:60px 60px;
+  pointer-events:none;z-index:0;
+}
+body::after{
+  content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 100% 100% at 50% 50%,transparent 40%,rgba(0,0,0,0.7) 100%);
+  pointer-events:none;z-index:0;
+}
+/* scanlines */
+.scanlines{
+  position:fixed;inset:0;pointer-events:none;z-index:9990;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent,transparent 2px,
+    rgba(0,0,0,0.015) 3px
+  );
+}
+
+/* ═══ EDIT MODE ══════════════════════════════ */
+body.edit-mode [data-edit]{
+  outline:1px dashed rgba(200,168,75,0.5);
+  border-radius:2px;cursor:text;
+  background:rgba(200,168,75,0.03);
+  min-height:1em;display:inline-block;width:100%;
+}
+body.edit-mode [data-edit]:focus{
+  outline:1px solid var(--am);
+  background:rgba(200,168,75,0.06);
+}
+.edit-bar{
+  position:fixed;top:0;left:0;right:0;z-index:9980;
+  background:rgba(26,20,5,0.97);
+  border-bottom:1px solid var(--am2);
+  padding:5px 20px;
+  display:none;align-items:center;gap:12px;
+  font-family:'Share Tech Mono',monospace;font-size:10px;
+  color:var(--am);letter-spacing:0.12em;
+}
+.edit-bar.show{display:flex;}
+.edit-bar-btn{
+  background:transparent;border:1px solid var(--am2);
+  color:var(--am);font-family:'Share Tech Mono',monospace;
+  font-size:9px;letter-spacing:0.1em;padding:3px 10px;
+  cursor:pointer;border-radius:2px;margin-left:auto;
+  transition:all 0.15s;
+}
+.edit-bar-btn:hover{background:var(--am3);}
+body.edit-mode nav{top:29px!important;}
+body.edit-mode .timer-bar.show{top:77px!important;}
+
+/* ═══ TIMER ══════════════════════════════════ */
+.timer-bar{
+  position:fixed;top:48px;left:0;right:0;z-index:960;
+  background:rgba(10,9,5,0.97);
+  border-bottom:1px solid var(--bd2);
+  padding:4px 20px;
+  display:none;align-items:center;gap:10px;justify-content:center;
+}
+.timer-bar.show{display:flex;}
+.timer-disp{
+  font-family:'Share Tech Mono',monospace;font-size:14px;
+  color:var(--am);letter-spacing:0.2em;
+  text-shadow:0 0 10px rgba(200,168,75,0.4);
+}
+.timer-btn{
+  font-family:'Share Tech Mono',monospace;font-size:9px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  background:transparent;border:1px solid var(--bd2);
+  color:var(--tx2);padding:3px 9px;cursor:pointer;
+  border-radius:2px;transition:all 0.15s;
+}
+.timer-btn:hover{border-color:var(--am2);color:var(--am);}
+.timer-lbl{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--tx2);letter-spacing:0.1em;}
+
+/* ═══ NAV ════════════════════════════════════ */
+nav{
+  position:sticky;top:0;z-index:970;
+  background:rgba(10,9,5,0.97);
+  border-bottom:1px solid var(--bd2);
+  height:48px;
+  display:flex;align-items:center;
+  padding:0 20px;gap:0;
+  backdrop-filter:blur(20px);
+}
+.nav-logo{
+  font-family:'Special Elite',serif;
+  font-size:13px;color:var(--am);
+  letter-spacing:0.08em;text-decoration:none;
+  margin-right:20px;flex-shrink:0;
+  text-shadow:0 0 20px rgba(200,168,75,0.3);
+  display:flex;align-items:center;gap:6px;
+}
+.nav-logo-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--am);
+  box-shadow:0 0 6px var(--am);
+  animation:blink 3s ease-in-out infinite;
+}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.nav-links{display:flex;gap:0;overflow-x:auto;flex:1;scrollbar-width:none;}
+.nav-links::-webkit-scrollbar{display:none;}
+.nav-links a{
+  font-family:'Share Tech Mono',monospace;font-size:9px;
+  color:var(--tx2);text-decoration:none;
+  letter-spacing:0.1em;text-transform:uppercase;
+  padding:0 10px;height:48px;
+  display:flex;align-items:center;
+  border-right:1px solid var(--bd);
+  white-space:nowrap;transition:all 0.2s;
+  position:relative;
+}
+.nav-links a:first-child{border-left:1px solid var(--bd);}
+.nav-links a:hover,.nav-links a.active{color:var(--am);}
+.nav-links a.active::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:1px;background:var(--am);
+  box-shadow:0 0 4px var(--am);
+}
+.nav-actions{display:flex;align-items:center;gap:6px;margin-left:12px;flex-shrink:0;}
+.nav-btn{
+  font-family:'Share Tech Mono',monospace;font-size:9px;
+  letter-spacing:0.08em;text-transform:uppercase;
+  background:transparent;border:1px solid var(--bd2);
+  color:var(--tx2);padding:5px 10px;cursor:pointer;
+  border-radius:2px;transition:all 0.15s;white-space:nowrap;
+}
+.nav-btn:hover{border-color:var(--am2);color:var(--am);}
+.nav-btn.on{border-color:var(--am);color:var(--am);background:var(--am4);}
+#sess-ind{
+  font-family:'Share Tech Mono',monospace;font-size:9px;
+  color:var(--tx2);letter-spacing:0.1em;
+  padding:5px 9px;border:1px solid var(--bd);border-radius:2px;
+  cursor:pointer;transition:all 0.15s;
+}
+#sess-ind:hover{border-color:var(--am2);color:var(--am);}
+
+/* ═══ HERO ═══════════════════════════════════ */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:80px 28px;
+  position:relative;z-index:1;
+  overflow:hidden;
+}
+.hero-flicker{
+  position:absolute;inset:0;pointer-events:none;
+  background:rgba(200,168,75,0.015);
+  animation:flicker 8s ease-in-out infinite;
+}
+@keyframes flicker{
+  0%,100%{opacity:1;}
+  92%{opacity:1;}93%{opacity:0.6;}94%{opacity:1;}
+  96%{opacity:0.8;}97%{opacity:1;}
+}
+.hero-eyebrow{
+  font-family:'Share Tech Mono',monospace;font-size:9px;
+  letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--am2);margin-bottom:24px;
+}
+.hero-title{
+  font-family:'Special Elite',serif;
+  font-size:clamp(50px,10vw,112px);
+  color:var(--am);letter-spacing:0.03em;line-height:0.9;
+  margin-bottom:24px;
+  text-shadow:0 0 40px rgba(200,168,75,0.2),0 0 80px rgba(200,168,75,0.08);
+}
+.hero-title-sub{color:var(--am3);}
+.hero-italic{
+  font-style:italic;font-size:clamp(14px,2vw,19px);
+  color:var(--tx2);max-width:460px;margin:0 auto 44px;
+}
+.hero-stats{
+  display:flex;gap:0;flex-wrap:wrap;
+  justify-content:center;margin-bottom:40px;
+  border:1px solid var(--bd2);border-radius:2px;overflow:hidden;
+}
+.hero-stat{padding:14px 24px;text-align:center;border-right:1px solid var(--bd2);}
+.hero-stat:last-child{border-right:none;}
+.hero-stat-n{font-family:'Special Elite',serif;font-size:28px;color:var(--am);display:block;line-height:1;}
+.hero-stat-l{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--tx2);letter-spacing:0.15em;text-transform:uppercase;display:block;margin-top:3px;}
+.hero-q{
+  font-style:italic;font-size:15px;color:var(--tx2);
+  max-width:420px;border-left:2px solid var(--am2);
+  padding:10px 16px;text-align:left;
+}
+.scroll-hint{
+  position:absolute;bottom:24px;left:50%;transform:translateX(-50%);
+  font-family:'Share Tech Mono',monospace;font-size:8px;
+  color:var(--bd3);letter-spacing:0.2em;text-transform:uppercase;
+  animation:pulse-hint 3s ease-in-out infinite;
+}
+@keyframes pulse-hint{0%,100%{opacity:0.2;}50%{opacity:0.8;}}
+
+/* ═══ LAYOUT ════════════════════════════════ */
+.wrap{max-width:1060px;margin:0 auto;padding:60px 24px;position:relative;z-index:1;}
+.sec{margin-bottom:90px;scroll-margin-top:60px;}
+
+/* ═══ TYPOGRAPHY ════════════════════════════ */
+h1{
+  font-family:'Special Elite',serif;font-size:24px;color:var(--am);
+  letter-spacing:0.04em;padding-bottom:10px;
+  border-bottom:1px solid var(--bd2);margin-bottom:4px;
+}
+.sec-meta{
+  font-family:'Share Tech Mono',monospace;font-size:9px;
+  color:var(--tx2);letter-spacing:0.15em;text-transform:uppercase;
+  margin-bottom:24px;
+}
+h2{
+  font-family:'Special Elite',serif;font-size:18px;color:var(--wh);
+  margin:40px 0 10px;letter-spacing:0.02em;
+}
+h3{
+  font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--am);
+  letter-spacing:0.15em;text-transform:uppercase;margin:22px 0 7px;
+}
+p{margin-bottom:9px;font-size:16px;}
+strong.w{color:var(--wh);}
+
+/* ═══ TABLES ════════════════════════════════ */
+.tw{overflow-x:auto;margin:8px 0 20px;border:1px solid var(--bd);border-radius:2px;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead th{
+  font-family:'Share Tech Mono',monospace;font-size:8px;
+  letter-spacing:0.12em;text-transform:uppercase;
+  padding:9px 11px;text-align:left;
+  background:var(--bg3);color:var(--am);
+  border-bottom:1px solid var(--bd2);
+}
+tbody td{padding:7px 11px;vertical-align:top;border-bottom:1px solid var(--bd);color:var(--tx);line-height:1.5;}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:hover td{background:rgba(200,168,75,0.02);}
+.tn{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--am2);width:32px;white-space:nowrap;}
+.tb{color:var(--wh);font-weight:600;}
+.tg thead th,.tg .tn{color:var(--gt);}
+.ty thead th,.ty .tn{color:var(--yt);}
+.tr thead th,.tr .tn{color:var(--rt);}
+
+/* ═══ BADGES ════════════════════════════════ */
+.badge{
+  display:inline-flex;align-items:center;gap:4px;
+  font-family:'Share Tech Mono',monospace;font-size:8px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  padding:2px 8px;border-radius:2px;margin-bottom:12px;margin-right:4px;
+}
+.bg{background:var(--g);color:var(--gt);border:1px solid var(--gb);}
+.by{background:var(--y);color:var(--yt);border:1px solid var(--yb);}
+.br{background:var(--r);color:var(--rt);border:1px solid var(--rb);}
+.bb{background:var(--b);color:var(--bt);border:1px solid var(--bb);}
+.bpu{background:var(--pu);color:var(--put);border:1px solid var(--pub);}
+
+/* ═══ BOXES ═════════════════════════════════ */
+.box{border:1px solid var(--bd2);border-radius:2px;padding:14px 18px;margin:10px 0;background:var(--bg2);}
+.bxt{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;color:var(--am);margin-bottom:7px;}
+.box ul{list-style:none;padding:0;}
+.box li{padding:2px 0 2px 12px;position:relative;font-size:14px;border-bottom:1px solid rgba(40,37,15,0.5);}
+.box li:last-child{border-bottom:none;}
+.box li::before{content:'›';position:absolute;left:0;color:var(--am2);}
+.box-y{border-color:var(--yb);background:var(--y);}
+.box-y .bxt{color:var(--yt);}
+.box-r{border-color:var(--rb);background:var(--r);}
+.box-r .bxt{color:var(--rt);}
+.box-g{border-color:var(--gb);background:var(--g);}
+.box-g .bxt{color:var(--gt);}
+.box-b{border-color:var(--bb);background:var(--b);}
+.box-b .bxt{color:var(--bt);}
+.box-pu{border-color:var(--pub);background:var(--pu);}
+.box-pu .bxt{color:var(--put);}
+
+/* ═══ LEVEL CARD ════════════════════════════ */
+.lcard{
+  border:1px solid var(--bd2);border-radius:3px;
+  margin-bottom:36px;overflow:hidden;
+  transition:border-color 0.2s;
+}
+.lcard:hover{border-color:var(--bd3);}
+.lcard-hd{
+  padding:16px 20px;
+  border-bottom:1px solid var(--bd2);
+  display:flex;align-items:flex-start;
+  justify-content:space-between;flex-wrap:wrap;gap:8px;
+  position:relative;overflow:hidden;
+}
+.lcard-hd::before{
+  content:'';position:absolute;inset:0;
+  opacity:0.06;pointer-events:none;
+}
+.lc0 .lcard-hd{background:linear-gradient(135deg,#1a1708 0%,#0d0c07 100%);}
+.lc0 .lcard-hd::before{background:radial-gradient(ellipse at 20% 50%,#c8a84b 0%,transparent 70%);}
+.lc1 .lcard-hd{background:linear-gradient(135deg,#101818 0%,#080d0d 100%);}
+.lc1 .lcard-hd::before{background:radial-gradient(ellipse at 20% 50%,#487088 0%,transparent 70%);}
+.lc2 .lcard-hd{background:linear-gradient(135deg,#0e0810 0%,#080608 100%);}
+.lc2 .lcard-hd::before{background:radial-gradient(ellipse at 20% 50%,#803050 0%,transparent 70%);}
+.lc3 .lcard-hd{background:linear-gradient(135deg,#100808 0%,#080505 100%);}
+.lc3 .lcard-hd::before{background:radial-gradient(ellipse at 20% 50%,#c03030 0%,transparent 70%);}
+.lc4 .lcard-hd{background:linear-gradient(135deg,#080f18 0%,#05090f 100%);}
+.lc4 .lcard-hd::before{background:radial-gradient(ellipse at 20% 50%,#2060a0 0%,transparent 70%);}
+.lc5 .lcard-hd{background:linear-gradient(135deg,#181008 0%,#100908 100%);}
+.lc5 .lcard-hd::before{background:radial-gradient(ellipse at 20% 50%,#805030 0%,transparent 70%);}
+.lc6 .lcard-hd{background:linear-gradient(135deg,#080808 0%,#050505 100%);}
+.lc6 .lcard-hd::before{background:radial-gradient(ellipse at 20% 50%,#303030 0%,transparent 70%);}
+.lc37 .lcard-hd{background:linear-gradient(135deg,#081018 0%,#050a10 100%);}
+.lc37 .lcard-hd::before{background:radial-gradient(ellipse at 20% 50%,#308090 0%,transparent 70%);}
+.lc94 .lcard-hd{background:linear-gradient(135deg,#101808 0%,#0a1005 100%);}
+.lc94 .lcard-hd::before{background:radial-gradient(ellipse at 20% 50%,#508030 0%,transparent 70%);}
+.lc11 .lcard-hd{background:linear-gradient(135deg,#080808 0%,#101010 100%);}
+.lc11 .lcard-hd::before{background:radial-gradient(ellipse at 20% 50%,#606060 0%,transparent 70%);}
+.lcpt .lcard-hd{background:linear-gradient(135deg,#080818 0%,#060610 100%);}
+.lcpt .lcard-hd::before{background:radial-gradient(ellipse at 20% 50%,#4040a0 0%,transparent 70%);}
+
+.lcard-num{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--tx2);letter-spacing:0.12em;margin-bottom:3px;}
+.lcard-nome{font-family:'Special Elite',serif;font-size:19px;letter-spacing:0.02em;}
+.lcard-body{padding:18px 20px;}
+
+/* ═══ SENSORY GRID ══════════════════════════ */
+.sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin:12px 0 18px;}
+.sc{background:var(--bg3);border:1px solid var(--bd);border-radius:2px;padding:10px;}
+.sc-icon{font-size:16px;margin-bottom:4px;display:block;}
+.sc-lbl{font-family:'Share Tech Mono',monospace;font-size:7px;color:var(--tx2);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:2px;}
+.sc-tx{font-size:13px;color:var(--tx);font-style:italic;line-height:1.4;}
+
+/* ═══ SCENE / NARRATION ═════════════════════ */
+.cena{
+  border-left:3px solid var(--am2);padding:12px 16px;
+  margin:12px 0;background:var(--bg2);border-radius:0 2px 2px 0;
+  position:relative;
+}
+.cena::before{
+  content:'';position:absolute;left:-3px;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--am) 0%,var(--am2) 100%);
+}
+.cena-lbl{font-family:'Share Tech Mono',monospace;font-size:7px;color:var(--am2);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:6px;}
+.cena p{font-style:italic;color:var(--tx3);font-size:14px;margin-bottom:4px;line-height:1.6;}
+.cena .nota{font-style:normal;color:var(--tx2);font-size:11px;border-top:1px solid var(--bd);padding-top:6px;margin-top:6px;}
+
+/* ═══ QA GRID ═══════════════════════════════ */
+.qa{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0;}
+@media(max-width:620px){.qa{grid-template-columns:1fr;}}
+.qi{background:var(--bg3);border:1px solid var(--bd);border-radius:2px;padding:10px;}
+.qq{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--am);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
+.qa_{font-style:italic;font-size:13px;color:var(--tx);line-height:1.5;}
+
+/* ═══ NPC CARD ══════════════════════════════ */
+.npc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin:12px 0;}
+.npc-card{
+  border:1px solid var(--bd2);border-radius:3px;overflow:hidden;
+  transition:border-color 0.2s;
+}
+.npc-card:hover{border-color:var(--bd3);}
+.npc-card-hd{
+  padding:12px 14px;background:var(--bg3);
+  border-bottom:1px solid var(--bd2);
+  display:flex;align-items:center;gap:10px;
+}
+.npc-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--bg4);border:1px solid var(--bd2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.npc-name{font-family:'Special Elite',serif;font-size:15px;color:var(--wh);}
+.npc-role{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--tx2);letter-spacing:0.1em;text-transform:uppercase;}
+.npc-body{padding:12px 14px;}
+.npc-section{margin-bottom:8px;}
+.npc-section-t{font-family:'Share Tech Mono',monospace;font-size:7px;color:var(--am);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:3px;}
+.npc-section-c{font-size:13px;color:var(--tx);line-height:1.5;}
+.npc-fala{
+  border-left:2px solid var(--am2);
+  padding:6px 10px;margin:6px 0;
+  font-style:italic;font-size:13px;color:var(--tx3);
+  background:var(--bg2);
+}
+.npc-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+.npc-tag{
+  font-family:'Share Tech Mono',monospace;font-size:7px;
+  padding:2px 6px;border-radius:2px;
+  border:1px solid var(--bd2);color:var(--tx2);
+}
+
+/* ═══ GRID 3/2 ══════════════════════════════ */
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0;}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:10px 0;}
+@media(max-width:660px){.g3,.g2{grid-template-columns:1fr;}}
+.card{background:var(--bg3);border:1px solid var(--bd);border-radius:2px;padding:12px;}
+.card-t{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--am);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:6px;}
+
+/* ═══ TIMELINE ══════════════════════════════ */
+.tl{display:flex;gap:0;margin:16px 0;}
+.tli{flex:1;padding:10px 12px;border:1px solid var(--bd);border-right:none;background:var(--bg2);}
+.tli:last-child{border-right:1px solid var(--bd);}
+.tln{font-family:'Share Tech Mono',monospace;font-size:7px;color:var(--tx2);letter-spacing:0.1em;margin-bottom:2px;}
+.tlt{font-family:'Special Elite',serif;font-size:12px;color:var(--am);margin-bottom:3px;}
+.tld{font-size:11px;color:var(--tx2);line-height:1.4;}
+@media(max-width:560px){.tl{flex-direction:column;}.tli{border-right:1px solid var(--bd);border-bottom:none;}.tli:last-child{border-bottom:1px solid var(--bd);}}
+
+/* ═══ SEP ════════════════════════════════════ */
+.sep{border:none;border-top:1px solid var(--bd2);margin:40px 0;}
+
+/* ═══ ENV ════════════════════════════════════ */
+.env{border:1px dashed var(--bd2);border-radius:2px;padding:12px 16px;margin:8px 0;background:var(--bg);position:relative;}
+.env::after{content:'✉';position:absolute;top:8px;right:10px;color:var(--bd3);font-size:12px;}
+.env-l{font-family:'Share Tech Mono',monospace;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;color:var(--tx2);margin-bottom:4px;}
+.env p{font-style:italic;color:var(--tx);margin-bottom:3px;font-size:13px;}
+.env .n{font-size:11px;color:var(--tx2);font-style:normal;border-top:1px solid var(--bd);padding-top:5px;margin-top:5px;}
+
+/* ═══ CAMP PANEL ════════════════════════════ */
+.camp-panel{background:var(--bg2);border:1px solid var(--bd2);border-radius:3px;overflow:hidden;margin-bottom:14px;}
+.camp-hd{background:var(--bg3);padding:10px 14px;border-bottom:1px solid var(--bd2);display:flex;align-items:center;justify-content:space-between;}
+.camp-hd-t{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--am);letter-spacing:0.12em;text-transform:uppercase;}
+.camp-body{padding:12px 14px;}
+.camp-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:7px;}
+.ctag{
+  font-family:'Share Tech Mono',monospace;font-size:8px;
+  padding:2px 7px;border-radius:2px;cursor:pointer;
+  border:1px solid var(--bd2);color:var(--tx2);background:var(--bg3);
+  transition:all 0.15s;display:flex;align-items:center;gap:3px;
+}
+.ctag:hover{border-color:var(--am2);color:var(--am);}
+.ctag.active.room{background:var(--b);border-color:var(--bt);color:var(--bt);}
+.ctag.active.creature{background:var(--r);border-color:var(--rt);color:var(--rt);}
+.ctag.active.npc{background:var(--g);border-color:var(--gt);color:var(--gt);}
+.ctag.active.item{background:var(--y);border-color:var(--yt);color:var(--yt);}
+.camp-note{
+  width:100%;background:var(--bg);border:1px solid var(--bd);
+  color:var(--tx);font-family:'Crimson Pro',serif;font-size:13px;
+  padding:7px 9px;border-radius:2px;resize:none;outline:none;
+  transition:border-color 0.2s;
+}
+.camp-note:focus{border-color:var(--am2);}
+.camp-note::placeholder{color:var(--tx2);}
+
+/* ═══ DICE ══════════════════════════════════ */
+.dice-panel{
+  position:fixed;bottom:76px;right:18px;z-index:9000;
+  background:var(--bg3);border:1px solid var(--bd2);
+  border-radius:3px;width:220px;padding:14px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.8);
+  display:none;
+}
+.dice-panel.show{display:block;}
+.dp-t{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--am);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:10px;}
+.dice-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:10px;}
+.die-btn{
+  background:var(--bg4);border:1px solid var(--bd2);
+  color:var(--tx);font-family:'Share Tech Mono',monospace;font-size:10px;
+  padding:6px 3px;cursor:pointer;border-radius:2px;text-align:center;
+  transition:all 0.15s;
+}
+.die-btn:hover{border-color:var(--am);color:var(--am);background:var(--am4);}
+.die-btn:active{transform:scale(0.95);}
+
+/* 3D Die */
+.die3d-wrap{
+  width:60px;height:60px;margin:0 auto 8px;
+  perspective:200px;cursor:pointer;
+}
+.die3d{
+  width:60px;height:60px;
+  position:relative;transform-style:preserve-3d;
+  transition:transform 0.0s;
+}
+.die3d.rolling{
+  animation:roll3d 0.6s ease-in-out;
+}
+@keyframes roll3d{
+  0%{transform:rotateX(0) rotateY(0);}
+  25%{transform:rotateX(180deg) rotateY(90deg);}
+  50%{transform:rotateX(360deg) rotateY(180deg);}
+  75%{transform:rotateX(270deg) rotateY(270deg);}
+  100%{transform:rotateX(360deg) rotateY(360deg);}
+}
+.die3d-face{
+  position:absolute;width:60px;height:60px;
+  background:var(--bg4);border:1px solid var(--am2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Special Elite',serif;font-size:22px;color:var(--am);
+  border-radius:4px;
+}
+.die3d-face.front{transform:translateZ(30px);}
+.die3d-face.back{transform:rotateY(180deg) translateZ(30px);}
+.die3d-face.right{transform:rotateY(90deg) translateZ(30px);}
+.die3d-face.left{transform:rotateY(-90deg) translateZ(30px);}
+.die3d-face.top{transform:rotateX(90deg) translateZ(30px);}
+.die3d-face.bottom{transform:rotateX(-90deg) translateZ(30px);}
+
+.die-result{
+  font-family:'Special Elite',serif;font-size:36px;color:var(--am);
+  text-align:center;min-height:44px;line-height:1;margin-bottom:4px;
+  text-shadow:0 0 20px rgba(200,168,75,0.4);
+  transition:all 0.2s;
+}
+.die-sub{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--tx2);text-align:center;letter-spacing:0.1em;margin-bottom:6px;}
+.die-history{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--tx2);max-height:36px;overflow:hidden;line-height:1.8;}
+
+/* ═══ QUICK NOTE ════════════════════════════ */
+.qnote{
+  position:fixed;bottom:76px;right:18px;z-index:9000;
+  background:var(--bg3);border:1px solid var(--bd2);
+  border-radius:3px;width:240px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.8);
+  display:none;
+}
+.qnote.show{display:block;}
+.qnote-hd{padding:7px 11px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;}
+.qnote-t{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--am);letter-spacing:0.1em;text-transform:uppercase;}
+.qnote-x{background:none;border:none;color:var(--tx2);cursor:pointer;font-size:12px;padding:0;transition:color 0.15s;}
+.qnote-x:hover{color:var(--am);}
+
+/* ═══ NAME GENERATOR ════════════════════════ */
+.namegen{
+  background:var(--bg2);border:1px solid var(--bd2);
+  border-radius:3px;overflow:hidden;margin-bottom:20px;
+}
+.namegen-hd{background:var(--bg3);padding:12px 16px;border-bottom:1px solid var(--bd2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.namegen-t{font-family:'Special Elite',serif;font-size:16px;color:var(--am);}
+.namegen-body{padding:16px;}
+.ng-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:14px;}
+.ng-box{background:var(--bg3);border:1px solid var(--bd);border-radius:2px;padding:12px;}
+.ng-box-t{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--am);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px;}
+.ng-result{
+  font-family:'Special Elite',serif;font-size:18px;color:var(--wh);
+  min-height:28px;margin-bottom:6px;
+  transition:all 0.2s;
+}
+.ng-sub{font-size:12px;color:var(--tx2);font-style:italic;min-height:16px;}
+.ng-btn{
+  font-family:'Share Tech Mono',monospace;font-size:8px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  background:transparent;border:1px solid var(--bd2);
+  color:var(--tx2);padding:4px 10px;cursor:pointer;
+  border-radius:2px;transition:all 0.15s;width:100%;
+}
+.ng-btn:hover{border-color:var(--am2);color:var(--am);}
+.ng-all-btn{
+  font-family:'Share Tech Mono',monospace;font-size:9px;
+  letter-spacing:0.1em;text-transform:uppercase;
+  background:var(--am4);border:1px solid var(--am2);
+  color:var(--am);padding:7px 16px;cursor:pointer;
+  border-radius:2px;transition:all 0.15s;
+}
+.ng-all-btn:hover{background:var(--am3);}
+
+/* ═══ QUESTION PANEL ════════════════════════ */
+.qpanel{
+  background:var(--bg2);border:1px solid var(--bd2);
+  border-radius:3px;overflow:hidden;
+}
+.qpanel-hd{background:var(--bg3);padding:12px 16px;border-bottom:1px solid var(--bd2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.qpanel-t{font-family:'Special Elite',serif;font-size:16px;color:var(--am);}
+.qpanel-body{padding:16px;}
+.qcat-tabs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px;}
+.qcat-tab{
+  font-family:'Share Tech Mono',monospace;font-size:8px;
+  letter-spacing:0.08em;text-transform:uppercase;
+  background:transparent;border:1px solid var(--bd2);
+  color:var(--tx2);padding:4px 9px;cursor:pointer;
+  border-radius:2px;transition:all 0.15s;
+}
+.qcat-tab:hover{border-color:var(--am2);color:var(--am);}
+.qcat-tab.active{background:var(--am4);border-color:var(--am);color:var(--am);}
+.q-list{display:none;}
+.q-list.active{display:block;}
+.q-item{
+  border:1px solid var(--bd);border-radius:2px;
+  margin-bottom:7px;overflow:hidden;
+  transition:border-color 0.15s;
+}
+.q-item:hover{border-color:var(--bd2);}
+.q-q{
+  padding:8px 12px;background:var(--bg3);
+  font-family:'Share Tech Mono',monospace;font-size:9px;
+  color:var(--am);letter-spacing:0.08em;cursor:pointer;
+  display:flex;justify-content:space-between;align-items:center;
+  transition:background 0.15s;
+}
+.q-q:hover{background:var(--bg4);}
+.q-arrow{transition:transform 0.2s;color:var(--am2);}
+.q-item.open .q-arrow{transform:rotate(90deg);}
+.q-a{
+  padding:0 12px;max-height:0;overflow:hidden;
+  transition:max-height 0.3s ease,padding 0.3s;
+  font-style:italic;font-size:13px;color:var(--tx);line-height:1.6;
+  background:var(--bg2);
+}
+.q-item.open .q-a{max-height:200px;padding:10px 12px;}
+
+/* ═══ TRACKER ════════════════════════════════ */
+.tracker{background:var(--bg2);border:1px solid var(--bd2);border-radius:3px;overflow:hidden;}
+.tracker-hd{background:var(--bg3);padding:12px 16px;border-bottom:1px solid var(--bd2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;}
+.tracker-t{font-family:'Special Elite',serif;font-size:16px;color:var(--am);}
+.tc{display:flex;gap:5px;flex-wrap:wrap;}
+.tbtn{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:0.08em;text-transform:uppercase;background:transparent;border:1px solid var(--bd2);color:var(--tx2);padding:4px 9px;cursor:pointer;border-radius:2px;transition:all 0.15s;}
+.tbtn:hover{border-color:var(--am2);color:var(--am);}
+.tbtn.am{border-color:var(--am2);color:var(--am);}
+.tbtn.am:hover{background:var(--am4);}
+.tbtn.red{border-color:var(--rb);color:var(--rt);}
+.tbtn.red:hover{background:var(--r);}
+.tracker-body{padding:14px 16px;}
+.pj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:16px;}
+
+/* ═══ PJ CARD ════════════════════════════════ */
+.pjcard{
+  background:var(--bg3);border:1px solid var(--bd);
+  border-radius:3px;overflow:hidden;transition:border-color 0.2s;
+}
+.pjcard.critical{border-color:var(--rb)!important;animation:crit 2s ease-in-out infinite;}
+@keyframes crit{0%,100%{border-color:var(--rb);}50%{border-color:var(--rt);box-shadow:0 0 8px rgba(192,40,40,0.3);}}
+.pjcard-hd{padding:9px 11px;background:var(--bg4);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:6px;}
+.pjnum{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--tx2);width:16px;}
+.pjname{flex:1;background:transparent;border:none;font-family:'Special Elite',serif;font-size:14px;color:var(--wh);outline:none;min-width:0;}
+.pjname::placeholder{color:var(--tx2);}
+.pjdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.pjdel{background:none;border:none;color:var(--bd3);cursor:pointer;font-size:11px;padding:0;transition:color 0.15s;}
+.pjdel:hover{color:var(--rt);}
+
+/* PJ Tabs */
+.pj-tabs{display:flex;border-bottom:1px solid var(--bd);overflow-x:auto;scrollbar-width:none;}
+.pj-tabs::-webkit-scrollbar{display:none;}
+.pj-tab{font-family:'Share Tech Mono',monospace;font-size:7px;letter-spacing:0.07em;text-transform:uppercase;color:var(--tx2);padding:5px 8px;cursor:pointer;border-right:1px solid var(--bd);white-space:nowrap;transition:all 0.15s;flex-shrink:0;background:transparent;}
+.pj-tab:hover{color:var(--am);}
+.pj-tab.active{color:var(--am);background:var(--am4);border-bottom:1px solid var(--am);margin-bottom:-1px;}
+.pj-pane{padding:9px 11px;display:none;}
+.pj-pane.active{display:block;}
+
+/* stats */
+.stat-row{margin-bottom:8px;}
+.stat-lbl{font-family:'Share Tech Mono',monospace;font-size:7px;color:var(--tx2);letter-spacing:0.1em;text-transform:uppercase;display:flex;justify-content:space-between;margin-bottom:3px;}
+.stat-val{color:var(--am);font-size:9px;}
+.stat-bar{height:3px;background:var(--bd2);border-radius:2px;overflow:hidden;}
+.stat-fill{height:100%;border-radius:2px;transition:width 0.3s;}
+.fill-san{background:linear-gradient(90deg,var(--rb),var(--am),var(--gt));}
+.fill-hp{background:linear-gradient(90deg,var(--rb),#e05020,var(--gt));}
+.fill-hun{background:linear-gradient(90deg,var(--rb),var(--yt));}
+.fill-thi{background:linear-gradient(90deg,var(--rb),var(--bt));}
+.stat-btns{display:flex;gap:2px;margin-top:3px;}
+.sbt{font-family:'Share Tech Mono',monospace;font-size:7px;background:transparent;border:1px solid var(--bd);color:var(--tx2);padding:2px 5px;cursor:pointer;border-radius:2px;transition:all 0.15s;flex:1;}
+.sbt:hover{border-color:var(--am2);color:var(--am);}
+
+/* status */
+.stags{display:flex;flex-wrap:wrap;gap:3px;margin-top:5px;}
+.stag{font-family:'Share Tech Mono',monospace;font-size:7px;padding:2px 6px;border-radius:2px;cursor:pointer;border:1px solid var(--bd2);color:var(--tx2);transition:all 0.15s;}
+.stag:hover{border-color:var(--am2);color:var(--am);}
+.stag.on.parasita{background:var(--r);border-color:var(--rb);color:var(--rt);}
+.stag.on.ferido{background:#1e1408;border-color:#6a4010;color:#c08030;}
+.stag.on.dopple{background:var(--b);border-color:var(--bb);color:var(--bt);}
+.stag.on.perdido{background:#100820;border-color:#3a2060;color:#8050c0;}
+.stag.on.estavel{background:var(--g);border-color:var(--gb);color:var(--gt);}
+.stag.on.morto{background:#0d0d0d;border-color:#333;color:#555;}
+
+/* linhas */
+.lnhs{display:flex;gap:3px;flex-wrap:wrap;margin-top:2px;}
+.lnh{width:22px;height:22px;border-radius:50%;border:1px solid var(--am2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--am2);transition:all 0.15s;}
+.lnh.ativa{background:var(--am4);border-color:var(--am);color:var(--am);}
+.lnh.apagada{background:var(--r);border-color:var(--rb);color:var(--rt);}
+.lnh.falsa{background:var(--b);border-color:var(--bb);color:var(--bt);}
+
+/* inventory */
+.inv-item{display:flex;align-items:center;gap:5px;padding:3px 0;border-bottom:1px solid var(--bd);font-size:12px;}
+.inv-item:last-child{border-bottom:none;}
+.inv-del{background:none;border:none;color:var(--bd3);cursor:pointer;font-size:10px;margin-left:auto;transition:color 0.15s;}
+.inv-del:hover{color:var(--rt);}
+.inv-add{display:flex;gap:3px;margin-top:6px;}
+.inv-input{flex:1;background:var(--bg);border:1px solid var(--bd);color:var(--tx);font-family:'Crimson Pro',serif;font-size:12px;padding:3px 6px;border-radius:2px;outline:none;}
+.inv-input:focus{border-color:var(--am2);}
+.inv-input::placeholder{color:var(--tx2);}
+.inv-btn{background:transparent;border:1px solid var(--bd2);color:var(--tx2);font-family:'Share Tech Mono',monospace;font-size:7px;letter-spacing:0.08em;padding:3px 7px;cursor:pointer;border-radius:2px;transition:all 0.15s;}
+.inv-btn:hover{border-color:var(--am2);color:var(--am);}
+
+/* profissao */
+.prof-sel{width:100%;background:var(--bg);border:1px solid var(--bd);color:var(--tx);font-family:'Crimson Pro',serif;font-size:13px;padding:5px 7px;border-radius:2px;outline:none;margin-bottom:6px;}
+.prof-sel:focus{border-color:var(--am2);}
+.prof-hab{font-size:11px;color:var(--tx2);font-style:italic;line-height:1.4;}
+
+/* pj notas */
+.pj-nota{width:100%;background:var(--bg);border:1px solid var(--bd);color:var(--tx);font-family:'Crimson Pro',serif;font-size:12px;padding:6px 8px;border-radius:2px;resize:none;outline:none;}
+.pj-nota:focus{border-color:var(--am2);}
+.pj-nota::placeholder{color:var(--tx2);}
+
+/* sessao tracker */
+.st-row{display:grid;grid-template-columns:65px 1fr 1fr 70px;gap:6px;align-items:center;padding:5px 0;border-bottom:1px solid var(--bd);font-size:12px;}
+.st-row:last-child{border-bottom:none;}
+.st-num{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--am);letter-spacing:0.08em;}
+.st-in{background:transparent;border:none;border-bottom:1px solid var(--bd);color:var(--tx);font-family:'Crimson Pro',serif;font-size:12px;outline:none;width:100%;padding:1px 0;}
+.st-in:focus{border-bottom-color:var(--am2);}
+.st-in::placeholder{color:var(--tx2);}
+.st-roll{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--tx2);text-align:center;cursor:pointer;padding:2px 4px;border:1px solid var(--bd);border-radius:2px;transition:all 0.15s;}
+.st-roll:hover{border-color:var(--am2);color:var(--am);}
+
+/* ═══ FAB ════════════════════════════════════ */
+.fab-group{position:fixed;bottom:20px;right:16px;z-index:9800;display:flex;flex-direction:column;gap:7px;align-items:flex-end;}
+.fab-wrap{display:flex;align-items:center;gap:5px;}
+.fab-lbl{font-family:'Share Tech Mono',monospace;font-size:7px;color:var(--tx2);letter-spacing:0.1em;opacity:0;transition:opacity 0.2s;}
+.fab-wrap:hover .fab-lbl{opacity:1;}
+.fab{width:40px;height:40px;border-radius:50%;background:var(--bg3);border:1px solid var(--bd2);color:var(--tx2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.fab:hover{border-color:var(--am);color:var(--am);background:var(--am4);box-shadow:0 0 12px rgba(200,168,75,0.2);}
+
+/* ═══ TOAST ══════════════════════════════════ */
+#toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--bg3);border:1px solid var(--am2);color:var(--am);font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:0.1em;padding:7px 16px;border-radius:2px;opacity:0;pointer-events:none;transition:all 0.25s;z-index:9999;white-space:nowrap;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ═══ IEL (Org) ══════════════════════════════ */
+.iel-header{
+  background:linear-gradient(135deg,var(--bg3) 0%,#0a0818 100%);
+  border:1px solid var(--pub);border-radius:3px;
+  padding:20px;margin-bottom:20px;
+  position:relative;overflow:hidden;
+}
+.iel-header::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 30% 50%,rgba(128,80,180,0.08) 0%,transparent 70%);
+  pointer-events:none;
+}
+.iel-badge{
+  font-family:'Share Tech Mono',monospace;font-size:8px;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--put);border:1px solid var(--pub);
+  padding:2px 8px;border-radius:2px;margin-bottom:10px;
+  display:inline-block;
+}
+.iel-nome{font-family:'Special Elite',serif;font-size:22px;color:var(--wh);margin-bottom:4px;}
+.iel-sub{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--tx2);letter-spacing:0.1em;}
+.iel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin:12px 0;}
+.iel-stat{background:rgba(64,32,96,0.15);border:1px solid rgba(64,32,96,0.4);border-radius:2px;padding:10px;}
+.iel-stat-n{font-family:'Special Elite',serif;font-size:20px;color:var(--put);display:block;}
+.iel-stat-l{font-family:'Share Tech Mono',monospace;font-size:7px;color:var(--tx2);letter-spacing:0.1em;text-transform:uppercase;}
+
+/* ═══ RESPONSIVE ═════════════════════════════ */
+@media(max-width:600px){
+  nav{padding:0 12px;}
+  .nav-actions{gap:4px;}
+  .nav-btn{padding:4px 7px;font-size:8px;}
+  .wrap{padding:40px 14px;}
+  .hero-title{font-size:clamp(44px,12vw,80px);}
+}
+</style>
+</head>
+<body>
+<div class="scanlines"></div>
+<div id="toast"></div>
+
+<!-- EDIT BAR -->
+<div class="edit-bar" id="edit-bar">
+  <span>✏ MODO EDIÇÃO — clique em qualquer texto para editar</span>
+  <button class="edit-bar-btn" onclick="toggleEdit()">SAIR DO MODO EDIÇÃO</button>
+</div>
+
+<!-- TIMER -->
+<div class="timer-bar" id="timer-bar">
+  <span class="timer-lbl">SESSÃO</span>
+  <span class="timer-disp" id="timer-disp">00:00:00</span>
+  <button class="timer-btn" onclick="timerToggle()" id="tbtn-start">▶ Iniciar</button>
+  <button class="timer-btn" onclick="timerReset()">↺ Zerar</button>
+  <button class="timer-btn" onclick="document.getElementById('timer-bar').classList.remove('show')">✕</button>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">
+    <div class="nav-logo-dot"></div>
+    NENHUM DE NÓS SAIU
+  </a>
+  <div class="nav-links">
+    <a href="#prologo">Prólogo</a>
+    <a href="#iel">I.E.L.</a>
+    <a href="#niveis">Níveis</a>
+    <a href="#salas">Tabelas</a>
+    <a href="#criaturas">Criaturas</a>
+    <a href="#npcs">NPCs</a>
+    <a href="#itens">Itens</a>
+    <a href="#memorias">Memórias</a>
+    <a href="#sessoes">Sessões</a>
+    <a href="#gerador">Gerador</a>
+    <a href="#perguntas">Perguntas</a>
+    <a href="#campanha">Campanha</a>
+    <a href="#tracker">Tracker</a>
+  </div>
+  <div class="nav-actions">
+    <div id="sess-ind" onclick="cycleSession()">SESSÃO 1</div>
+    <button class="nav-btn" onclick="toggleEdit()" id="edit-btn">✏ Editar</button>
+    <button class="nav-btn" onclick="document.getElementById('timer-bar').classList.toggle('show')">⏱</button>
+    <button class="nav-btn am" onclick="salvarDados()">💾</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="hero">
+  <div class="hero-flicker"></div>
+  <div class="hero-eyebrow">Call of Cthulhu 7ª Ed. · Backrooms · Material do Mestre</div>
+  <div class="hero-title">
+    NENHUM<br>
+    <span class="hero-title-sub">DE NÓS</span><br>
+    SAIU
+  </div>
+  <div class="hero-italic">"O lugar aprende com você.<br>O problema é que você também aprende com ele."</div>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="hero-stat-n">8+</span><span class="hero-stat-l">Níveis</span></div>
+    <div class="hero-stat"><span class="hero-stat-n">4</span><span class="hero-stat-l">Jogadores</span></div>
+    <div class="hero-stat"><span class="hero-stat-n">12</span><span class="hero-stat-l">Criaturas</span></div>
+    <div class="hero-stat"><span class="hero-stat-n">0</span><span class="hero-stat-l">Combates</span></div>
+  </div>
+  <div class="hero-q">Civis comuns. Um shopping. Uma tarde qualquer.<br>E então o barulho do mundo sumiu.</div>
+  <div class="scroll-hint">▼ &nbsp; rolar para explorar</div>
+</div>
+
+<div class="wrap">
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- PRÓLOGO -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="sec" id="prologo">
+  <h1>Prólogo — O Mundo Real</h1>
+  <div class="sec-meta">Sessão 0 · Antes da queda · Imersão e vínculos</div>
+
+  <p>O prólogo acontece <strong class="w">antes de qualquer mecânica</strong>. Seu único objetivo é fazer os jogadores sentirem que perderam algo real quando a queda acontecer.</p>
+
+  <h2>A Cena do Shopping</h2>
+  <div class="cena">
+    <div class="cena-lbl">Narração de abertura — leia para os jogadores</div>
+    <p data-edit>É uma quinta-feira à tarde. O shopping está com aquela movimentação de meio de semana — não vazio, não cheio. Muzak vaza das lojas abertas. Cheira a perfume de vitrine e comida de praça. As luzes do teto são brancas demais para parecerem naturais.</p>
+    <p data-edit>Cada um de vocês está aqui por algum motivo que, na escala do universo, não importa nada. Um voucher vencendo hoje. Um presente de aniversário que ficou para última hora. Uma consulta no andar de cima. Um lanche rápido antes de pegar o metrô.</p>
+    <p data-edit>Nenhum de vocês sabe o nome do outro. Por enquanto, está tudo bem.</p>
+    <div class="nota">⟶ Deixe 10–15 minutos de roleplay livre. Se dois personagens não se encontrarem, o shopping os colocará juntos em breve.</div>
+  </div>
+
+  <div class="qa">
+    <div class="qi"><div class="qq">Para o contador / a contadora</div><div class="qa_" data-edit>"Você está olhando o mapa do shopping tentando localizar uma loja. Qual loja você está procurando — e por quê você veio hoje, especificamente?"</div></div>
+    <div class="qi"><div class="qq">Para a professora / o professor</div><div class="qa_" data-edit>"Você está num banco da praça de alimentação com o celular na mão. Para quem você está quase mandando mensagem — e por que ainda não mandou?"</div></div>
+    <div class="qi"><div class="qq">Para a técnica / o técnico de enfermagem</div><div class="qa_" data-edit>"Você saiu do turno há duas horas. Ainda está com o uniforme? O que você veio buscar que não podia esperar até amanhã?"</div></div>
+    <div class="qi"><div class="qq">Para o entregador / a entregadora</div><div class="qa_" data-edit>"Você tem um voucher que vence hoje. Você normalmente não vem a shopping. O que te fez guardar esse voucher por semanas em vez de jogar fora?"</div></div>
+  </div>
+
+  <h2>A Queda</h2>
+  <div class="cena">
+    <div class="cena-lbl">Narração da queda — adapte para cada personagem</div>
+    <p data-edit>Você está andando. O próximo passo é igual a todos os outros.</p>
+    <p data-edit>E então — sem transição, sem clique, sem nada — o barulho acabou.</p>
+    <p data-edit>Não ficou silencioso. O barulho do shopping simplesmente não está mais lá. No lugar dele tem um zumbido. Baixo, constante, ligeiramente errado para ser fluorescente comum.</p>
+    <p data-edit>O carpete sob os seus pés é amarelo. Úmido de algo que não é água. A parede à sua frente tem papel de parede desbotado em tom de mostarda com um padrão que você já não consegue seguir com os olhos.</p>
+    <p data-edit>Você se virou para olhar para trás. Não há shopping. Há outro corredor.</p>
+    <div class="nota">⟶ Role para Sanidade: 0/1d6. Depois deixe o silêncio existir um momento antes de qualquer jogador falar.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- I.E.L. -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="sec" id="iel">
+  <h1>Instituto de Estudo Liminar — I.E.L.</h1>
+  <div class="sec-meta">Organização secreta · Lore original · Vinculada a dois NPCs</div>
+
+  <div class="iel-header">
+    <div class="iel-badge">CLASSIFICADO — NÍVEL OMEGA</div>
+    <div class="iel-nome" data-edit>Instituto de Estudo Liminar</div>
+    <div class="iel-sub">I.E.L. · Fundado em 1983 · Vinculado ao Ministério da Ciência e Tecnologia · Existência negada</div>
+    <div class="iel-grid" style="margin-top:12px;">
+      <div class="iel-stat"><span class="iel-stat-n">1983</span><span class="iel-stat-l">Fundação</span></div>
+      <div class="iel-stat"><span class="iel-stat-n">247</span><span class="iel-stat-l">Agentes ativos</span></div>
+      <div class="iel-stat"><span class="iel-stat-n">12</span><span class="iel-stat-l">Entradas documentadas</span></div>
+      <div class="iel-stat"><span class="iel-stat-n">3</span><span class="iel-stat-l">Retornos confirmados</span></div>
+    </div>
+  </div>
+
+  <h2>Origem e História</h2>
+  <p data-edit>Em outubro de 1983, um operário de uma fábrica têxtil em Santo André, SP, desapareceu durante o turno da noite enquanto trabalhava num depósito em reforma. Quando encontrado 11 dias depois — desorientado, desidratado, 9kg mais leve — descreveu corredores infinitos com carpete amarelado e luz fluorescente constante. O caso chegou ao então recém-criado Departamento de Fenômenos Inexplicáveis do Ministério da Ciência.</p>
+  <p data-edit>O departamento foi fechado publicamente em 1985. Secretamente, foi expandido e rebatizado de <strong class="w">Instituto de Estudo Liminar</strong>. Nos quarenta anos seguintes, o I.E.L. documentou 12 entradas confirmadas nos Backrooms no território brasileiro — e desenvolveu protocolos para tentar, sem sucesso consistente, resgatar os que caem.</p>
+
+  <h2>Estrutura do I.E.L.</h2>
+  <div class="g3">
+    <div class="card">
+      <div class="card-t">Divisão Alfa — Campo</div>
+      <p style="font-size:13px">Agentes de campo em traje hazmat. Responsáveis por entradas controladas e resgate. Maioria não retorna. Os que voltam são designados para treinamento — nunca para nova entrada.</p>
+    </div>
+    <div class="card">
+      <div class="card-t">Divisão Beta — Pesquisa</div>
+      <p style="font-size:13px">Cientistas e teóricos. Nunca entram nos Backrooms pessoalmente. Analisam dados trazidos pela Divisão Alfa. Desenvolvem teorias sobre a natureza do espaço liminar.</p>
+    </div>
+    <div class="card">
+      <div class="card-t">Divisão Gama — Contenção</div>
+      <p style="font-size:13px">Responsáveis por controle de informação. Apagam registros, compram silêncio, gerenciam famílias de desaparecidos. Os personagens dos jogadores constam em suas listas.</p>
+    </div>
+  </div>
+
+  <h2>O que o I.E.L. sabe — e o que errou</h2>
+  <div class="g2">
+    <div class="box box-b">
+      <div class="bxt">O que sabem (correto)</div>
+      <ul>
+        <li>Os Backrooms existem e são acessados por "no-clip" acidental</li>
+        <li>A geometria é não-euclidiana e instável</li>
+        <li>Há múltiplos níveis com atmosferas distintas</li>
+        <li>Entidades são reais e classificadas em 4 categorias</li>
+        <li>Almond Water existe e tem propriedades estabilizadoras</li>
+      </ul>
+    </div>
+    <div class="box box-r">
+      <div class="bxt">O que erraram (perigoso)</div>
+      <ul>
+        <li>Acreditam que podem criar entrada controlada — ainda não conseguiram</li>
+        <li>Subestimam o doppelganger: pensam que age em horas, não semanas</li>
+        <li>Protocolo de resgate assume recursos que não existem no Level 0</li>
+        <li>Não sabem da existência do Level 6 — classificado como "mito"</li>
+        <li>Acreditam que o I.E.L. tem controle da situação</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Documentos que os personagens podem encontrar</h2>
+  <div class="cena">
+    <div class="cena-lbl">Relatório I.E.L. nº 0047-B — fragmento</div>
+    <p data-edit>"...o sujeito D retornou após 23 dias relatando encontro com entidade classificada Tipo-3 (Imitador). Comportamento do sujeito D nos 48h seguintes ao retorno apresentou 7 das 11 métricas de comprometimento cognitivo. Protocolo Delta foi ativado. O sujeito D não está mais disponível para entrevistas. Recomendamos revisão do Protocolo Delta para incluir janela de observação estendida antes da avaliação final..."</p>
+    <div class="nota">⟶ "Protocolo Delta" é o eufemismo do I.E.L. para eliminação de retornados comprometidos. Os personagens podem nunca descobrir isso — ou podem.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- NÍVEIS -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="sec" id="niveis">
+  <h1>Os Níveis — Lore, Narrativa & Narrações</h1>
+  <div class="sec-meta">8 níveis documentados · Baseado no lore canônico · Adaptado para CoC 7ª</div>
+
+  <!-- LEVEL 0 -->
+  <div class="lcard lc0">
+    <div class="lcard-hd">
+      <div>
+        <div class="lcard-num">LEVEL 0</div>
+        <div class="lcard-nome" style="color:var(--yt)" data-edit>The Lobby — Os Corredores Amarelos</div>
+      </div>
+      <div><span class="badge bg">● Sem entidades</span><span class="badge by">▲ Perigo: recursos</span></div>
+    </div>
+    <div class="lcard-body">
+      <p data-edit>O primeiro lugar. Infinito, não-euclidiano, aparentemente vazio. A ameaça não é uma criatura — é a geometria. Andar em linha reta e chegar num lugar diferente. O zumbido que induz enxaquecas. A ausência total de recursos. Aproximadamente 85% dos que caem aqui nunca progridem para além do Level 0.</p>
+      <div class="sg">
+        <div class="sc"><span class="sc-icon">👃</span><div class="sc-lbl">Cheiro</div><div class="sc-tx" data-edit>Mofo adocicado e umidade que não é água. Papel velho que absorveu décadas de ar parado. Uma nota metálica persistente.</div></div>
+        <div class="sc"><span class="sc-icon">👂</span><div class="sc-lbl">Som</div><div class="sc-tx" data-edit>Zumbido fluorescente mais alto e regular do que qualquer lâmpada real. Vibra numa frequência ligeiramente errada — não dá pra ignorar.</div></div>
+        <div class="sc"><span class="sc-icon">✋</span><div class="sc-lbl">Tato</div><div class="sc-tx" data-edit>Carpete úmido que cede demais sob os pés. Paredes mornais — não frias como deveriam. Quase como pele.</div></div>
+        <div class="sc"><span class="sc-icon">💡</span><div class="sc-lbl">Luz</div><div class="sc-tx" data-edit>Fluorescente sem origem visível. Sem sombras fortes — a luz vem de todo lugar, tornando tudo levemente irreal.</div></div>
+        <div class="sc"><span class="sc-icon">🌡️</span><div class="sc-lbl">Temperatura</div><div class="sc-tx" data-edit>O equilíbrio térmico de uma sala que foi habitada e foi abandonada. Não pertence a nenhum clima natural.</div></div>
+        <div class="sc"><span class="sc-icon">⏱️</span><div class="sc-lbl">Tempo</div><div class="sc-tx" data-edit>Impossível medir. Sem ciclo dia-noite. A luz nunca muda. O cansaço acumula sem referência.</div></div>
+      </div>
+      <h3>Narrações para momentos específicos</h3>
+      <div class="cena">
+        <div class="cena-lbl">Quando alguém tenta mapear pela primeira vez</div>
+        <p data-edit>Você risca o corredor no papel. Norte — ou o que parece norte. Vinte passos. Curva à esquerda. Outra sala. Você a marca. Continua. Mais dez salas depois, você reconhece uma marca na parede — a sua própria. Mas o papel diz que você nunca esteve nesta sala.</p>
+        <div class="nota">⟶ Role Inteligência. Sucesso: percebe inconsistência geométrica — não é erro seu. Falha: acredita que se perdeu.</div>
+      </div>
+      <div class="cena">
+        <div class="cena-lbl">Quando o grupo fica em silêncio absoluto</div>
+        <p data-edit>No silêncio, o zumbido é mais alto do que você esperava. Não é constante — tem micro-variações, quase como respiração. Quase como se o espaço estivesse vivo e vocês estivessem dentro dele, muito pequenos.</p>
+        <div class="nota">⟶ Role Percepção. Sucesso: ouve, muito longe, o que poderia ser uma voz. Quando para de escutar — desaparece.</div>
+      </div>
+      <div class="cena">
+        <div class="cena-lbl">Quando encontram a Manila Room</div>
+        <p data-edit>A diferença é sutil a princípio — o padrão da parede é levemente diferente, bege-alaranjado em vez de amarelo-mostarda. A luz tem uma tonalidade mais quente. Você se sente, pela primeira vez desde que chegou, levemente menos ansioso. Isso por si só é perturbador.</p>
+        <div class="nota">⟶ Recuperar 1d3 Vida. Quem ficar aqui 10+ minutos adormece. Acorda no Level 1.</div>
+      </div>
+      <div class="cena">
+        <div class="cena-lbl">Quando alguém começa a desesperar</div>
+        <p data-edit>Há um momento — e você sabe quando chega — em que o corredor à frente parece igual ao corredor atrás e o papel do mapa parece inútil e o zumbido está dentro do crânio e não fora e você percebe que pode ficar aqui para sempre.</p>
+        <p data-edit>E então alguém faz uma piada. Ou te toca no ombro. E o momento passa. Por enquanto.</p>
+        <div class="nota">⟶ Momento de roleplay de vínculo. Deixe acontecer naturalmente.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEVEL 1 -->
+  <div class="lcard lc1">
+    <div class="lcard-hd">
+      <div>
+        <div class="lcard-num">LEVEL 1</div>
+        <div class="lcard-nome" style="color:var(--bt)" data-edit>Habitable Zone — O Armazém</div>
+      </div>
+      <div><span class="badge by">▲ Entidades presentes</span><span class="badge bg">● Água disponível</span></div>
+    </div>
+    <div class="lcard-body">
+      <p data-edit>Armazém industrial com paredes de concreto, rebar exposto, névoa baixa e poças de água limpa. Tem recursos — mas também tem as entidades que o Level 0 não tem. As luzes piscam. Quando apagam por mais de 3 segundos, algo aparece no escuro. A névoa nunca levanta completamente.</p>
+      <div class="sg">
+        <div class="sc"><span class="sc-icon">👃</span><div class="sc-lbl">Cheiro</div><div class="sc-tx" data-edit>Concreto úmido, ferrugem, névoa de ar condicionado industrial. Em certas áreas: líquido negro de canos rompidos. Não toque — e especialmente não beba.</div></div>
+        <div class="sc"><span class="sc-icon">👂</span><div class="sc-lbl">Som</div><div class="sc-tx" data-edit>Gotejamento distante. Canos vibrando com pressão. O chiado das luzes. Quando silencia completamente: sinal de perigo iminente.</div></div>
+        <div class="sc"><span class="sc-icon">👁️</span><div class="sc-lbl">Visão</div><div class="sc-tx" data-edit>Cinza e ferrugem. A névoa corta a visibilidade a 15–20 metros. Sombras que não correspondem a objetos visíveis.</div></div>
+        <div class="sc"><span class="sc-icon">✋</span><div class="sc-lbl">Tato</div><div class="sc-tx" data-edit>Concreto frio e áspero. A névoa deposita umidade na pele ao longo do tempo. Ar mais pesado que o Level 0.</div></div>
+      </div>
+      <h3>Narrações para momentos específicos</h3>
+      <div class="cena">
+        <div class="cena-lbl">Quando as luzes apagam pela primeira vez</div>
+        <p data-edit>O mundo some. Não gradualmente — de uma vez. A escuridão aqui tem peso. Sua respiração soa alta demais. Os passos dos outros ecoam de forma estranha, como se a acústica da sala tivesse mudado.</p>
+        <p data-edit>Algo está no escuro. Você não vê. Você não ouve. Mas o instinto que existe antes do raciocínio está gritando.</p>
+        <div class="nota">⟶ Role Percepção. Sucesso: ouve algo a menos de 10m se movendo devagar. Falha: quando as luzes voltam, algo nos suprimentos sumiu.</div>
+      </div>
+      <div class="cena">
+        <div class="cena-lbl">Quando encontram a marcação "NÃO SIGA O SOM"</div>
+        <p data-edit>As marcações começam simples — setas, contagem de dias. Mas ao longo do corredor ficam mais densas, sobrepostas. Uma delas, isolada, em letras grandes e deliberadas: NÃO SIGA O SOM.</p>
+        <p data-edit>Abaixo, com caligrafia diferente, mais recente: <em>especialmente quando ele soa como você.</em></p>
+        <div class="nota">⟶ Perda de 1 Sanidade para todos. Aviso sobre o Skinwalker.</div>
+      </div>
+      <div class="cena">
+        <div class="cena-lbl">Quando alguém bebe a água das poças</div>
+        <p data-edit>A água é limpa — visualmente. Sem cheiro. Temperatura ambiente. Não tem sabor de cano ou de terra. Tem gosto de nada, o que é estranho o suficiente pra te fazer pensar no que "nada" sabe.</p>
+        <p data-edit>Você bebe. Está tudo bem. Por enquanto. Seu corpo está tão grato que não te deixa questionar mais.</p>
+        <div class="nota">⟶ Recupera 10 de Sede. Sem efeito negativo — água do Level 1 é segura, ao contrário do líquido negro.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEVEL 2 -->
+  <div class="lcard lc2">
+    <div class="lcard-hd">
+      <div>
+        <div class="lcard-num">LEVEL 2</div>
+        <div class="lcard-nome" style="color:var(--put)" data-edit>Pipe Dreams — O Labirinto de Tubulações</div>
+      </div>
+      <div><span class="badge br">■ Alto perigo</span><span class="badge by">▲ Desorientação extrema</span></div>
+    </div>
+    <div class="lcard-body">
+      <p data-edit>Um labirinto de maquinário industrial antigo, tubulações que vão ao teto, grades de metal e passagens estreitas. A eletricidade é instável — choques são possíveis. Mais escuro e quente que o Level 1. A música do maquinário cria um ruído constante que torna a comunicação verbal difícil e os sinais sensoriais de entidades quase impossíveis de detectar.</p>
+      <div class="sg">
+        <div class="sc"><span class="sc-icon">👃</span><div class="sc-lbl">Cheiro</div><div class="sc-tx" data-edit>Óleo de máquina, metal aquecido, algo orgânico indefinível no ar. Em certas áreas: gás. Se sentir tonteira, saia imediatamente.</div></div>
+        <div class="sc"><span class="sc-icon">👂</span><div class="sc-lbl">Som</div><div class="sc-tx" data-edit>Rugido constante de maquinário. Impossible distinguir sons normais de sons de ameaça. Qualquer comunicação acima de sussurro é desnecessária — as entidades já sabem que você está aqui.</div></div>
+        <div class="sc"><span class="sc-icon">🌡️</span><div class="sc-lbl">Temperatura</div><div class="sc-tx" data-edit>40–50°C em certas áreas. Desidratação acelerada. Cada hora aqui consome o dobro da sede comparado ao Level 1.</div></div>
+        <div class="sc"><span class="sc-icon">⚡</span><div class="sc-lbl">Perigo elétrico</div><div class="sc-tx" data-edit>Fios expostos em algumas tubulações. Tocar metal molhado próximo a eles: role Sorte ou receba 1d6 de dano.</div></div>
+      </div>
+      <h3>Narrações para momentos específicos</h3>
+      <div class="cena">
+        <div class="cena-lbl">Ao entrar no Level 2 pelo Level 1</div>
+        <p data-edit>A passagem é um buraco na parede de concreto, baixo o suficiente pra você ter que se abaixar. Do outro lado: calor imediato, como abrir um forno. O ruído do maquinário é físico — você o sente no peito antes de processá-lo como som.</p>
+        <p data-edit>É mais escuro aqui. As fontes de luz são pontos vermelhos e laranja espalhados no teto — calor de máquinas, não iluminação. Suas sombras são múltiplas e apontam em direções diferentes.</p>
+        <div class="nota">⟶ Todos perdem 5 Sede imediatamente ao entrar. O calor é concreto.</div>
+      </div>
+      <div class="cena">
+        <div class="cena-lbl">Quando alguém se perde do grupo</div>
+        <p data-edit>O ruído engoliu a voz deles. Você chama — e não sabe se eles ouviram, ou se o que ouviu chamando de volta era eles ou era o Skinwalker aproveitando o ruído como cobertura.</p>
+        <p data-edit>Você pára. Escuta. O maquinário não para. Nunca para.</p>
+        <div class="nota">⟶ Separação no Level 2 é o gatilho ideal para o Skinwalker. O mestre tem 3 turnos para introduzir a ameaça antes do grupo se reunir.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEVEL 5 -->
+  <div class="lcard lc5">
+    <div class="lcard-hd">
+      <div>
+        <div class="lcard-num">LEVEL 5</div>
+        <div class="lcard-nome" style="color:var(--yt)" data-edit>Terror Hotel</div>
+      </div>
+      <div><span class="badge br">■ Alto perigo</span><span class="badge by">▲ Entidades ativas</span></div>
+    </div>
+    <div class="lcard-body">
+      <p data-edit>Hotel de arquitetura dos anos 1930, abandonado mas conservado. Dois ambientes: o Lobby — luxuoso, enganosamente acolhedor, com jazz ao fundo sem fonte — e o Boiler, labirinto de caldeiras no subsolo, claustrofóbico e extremamente hostil. O tempo no Level 5 é particularmente distorcido: 20 minutos aqui podem ser 4 horas para quem aguarda fora.</p>
+      <div class="sg">
+        <div class="sc"><span class="sc-icon">👃</span><div class="sc-lbl">Lobby</div><div class="sc-tx" data-edit>Madeira envernizada, tecido empoeirado, notas fantasmas de cigarro dos anos 40. Agradável de forma perturbadora — como museu do que não deveria existir.</div></div>
+        <div class="sc"><span class="sc-icon">👃</span><div class="sc-lbl">Boiler</div><div class="sc-tx" data-edit>Óleo queimado, metal quente, algo orgânico. Cheiro de amêndoas em certos trechos — é o líquido dos canos. Não beba.</div></div>
+        <div class="sc"><span class="sc-icon">👂</span><div class="sc-lbl">Lobby — som</div><div class="sc-tx" data-edit>Jazz piano distante sem fonte. Passos acima, no andar que não existe. Regularidade perturbadora.</div></div>
+        <div class="sc"><span class="sc-icon">👂</span><div class="sc-lbl">Boiler — som</div><div class="sc-tx" data-edit>Pressão de vapor em canos. Batidas metálicas irregulares. E eventualmente: asas. Muito rápidas, muito perto, de cima.</div></div>
+      </div>
+      <h3>Narrações para momentos específicos</h3>
+      <div class="cena">
+        <div class="cena-lbl">Entrando no lobby pela primeira vez</div>
+        <p data-edit>A porta abre para um lobby que cheira a outra época. Poltronas de veludo bordô, recepção de madeira escura com o sino intacto. O lustre está aceso. O jazz está tocando.</p>
+        <p data-edit>É bonito. Essa é a parte assustadora.</p>
+        <p data-edit>Atrás do balcão da recepção, um livro de hóspedes. A última entrada é de hoje. Com o nome de um de vocês.</p>
+        <div class="nota">⟶ Mestre escolhe qual personagem tem o nome. Caligrafia idêntica à do próprio personagem. Roll Sanidade 0/1d6.</div>
+      </div>
+      <div class="cena">
+        <div class="cena-lbl">Quartos de hotel — explorando</div>
+        <p data-edit>Algumas portas abrem. Os quartos são perfeitos — camas feitas, toalhas dobradas, sabonete intacto. Como se estivessem esperando hóspedes. Mas os espelhos dos banheiros estão todos cobertos com panos escuros. Alguém fez isso intencionalmente. Com cuidado. Com pressa.</p>
+        <div class="nota">⟶ Os panos cobrem os espelhos para que o doppelganger não possa usar os reflexos. Um hóspede anterior sabia disso.</div>
+      </div>
+      <div class="cena">
+        <div class="cena-lbl">Quando ouvem as asas no Boiler</div>
+        <p data-edit>O som vem de cima. Rápido demais para ser pássaro, regular demais para ser tubulação. Algo na sua biologia reconhece o som antes de você conseguir processá-lo.</p>
+        <p data-edit>A resposta certa é parar, apagar qualquer luz, não respirar fundo. O instinto grita para correr.</p>
+        <div class="nota">⟶ Role Força de Vontade para agir contra o instinto. Falha: recua 1d6 metros fazendo barulho. A coisa ouviu.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEVEL 6 -->
+  <div class="lcard lc6">
+    <div class="lcard-hd">
+      <div>
+        <div class="lcard-num">LEVEL 6</div>
+        <div class="lcard-nome" style="color:var(--tx2)" data-edit>Lights Out — O Escuro Absoluto</div>
+      </div>
+      <div><span class="badge br">■ Perigo extremo</span><span class="badge br">■ Privação sensorial</span></div>
+    </div>
+    <div class="lcard-body">
+      <p data-edit>Escuridão e silêncio absolutos. Sem luz, sem som, sem entidades confirmadas — o nível em si é a ameaça. A privação sensorial leva à loucura em horas. Uma lanterna não funciona: a luz simplesmente não alcança mais que alguns centímetros.</p>
+      <div class="sg">
+        <div class="sc"><span class="sc-icon">👃</span><div class="sc-lbl">Cheiro</div><div class="sc-tx" data-edit>Nada. Ausência total — o nariz tenta processar dados que não existem. Perturbador de uma forma que é difícil de articular.</div></div>
+        <div class="sc"><span class="sc-icon">👂</span><div class="sc-lbl">Som</div><div class="sc-tx" data-edit>Só o próprio corpo. Batimento cardíaco. Respiração. O fluido nos ouvidos. Sons que normalmente o cérebro filtra agora são o único input.</div></div>
+        <div class="sc"><span class="sc-icon">👁️</span><div class="sc-lbl">Visão</div><div class="sc-tx" data-edit>Zero. O cérebro começa a gerar imagens após minutos — alucinações de privação. Não são entidades. Mas parecem.</div></div>
+        <div class="sc"><span class="sc-icon">🧠</span><div class="sc-lbl">Psicológico</div><div class="sc-tx" data-edit>Perda de noção de tempo e espaço. Dificuldade de distinguir real do gerado pela mente. Cada 5 minutos: −1 Sanidade.</div></div>
+      </div>
+      <div class="cena">
+        <div class="cena-lbl">Entrando no Level 6 — a narração mais importante</div>
+        <p data-edit>Um passo você podia ver sua própria mão. O próximo, nada.</p>
+        <p data-edit>Não é o escuro de um quarto sem luz. É o escuro de um lugar onde a luz simplesmente não tem permissão de existir.</p>
+        <p data-edit>Você ouve a respiração dos outros. Conta elas. Uma. Duas. Três. Quatro. Você conta de novo. Uma. Duas. Três. Quatro. E uma quinta que você não esperava.</p>
+        <div class="nota">⟶ Há exatamente 4 personagens. Role Sanidade 1/1d6 para todos. A quinta respiração não volta a ser mencionada — nunca.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEVEL 9 -->
+  <div class="lcard" style="border-color:var(--bd2);">
+    <div class="lcard-hd" style="background:linear-gradient(135deg,#0a1808 0%,#060f05 100%);">
+      <div>
+        <div class="lcard-num">LEVEL 9</div>
+        <div class="lcard-nome" style="color:var(--gt)" data-edit>The Garden — O Parque Eterno</div>
+      </div>
+      <div><span class="badge bg">● Relativamente seguro</span><span class="badge by">▲ Ameaça: desorientação</span></div>
+    </div>
+    <div class="lcard-body">
+      <p data-edit>Um parque infinito sob céu falso — sempre azul claro, sem sol visível, mas com luz difusa agradável. Grama verde, árvores, bancos, coretos. O mais enganosamente normal de todos os níveis. Esse é exatamente o problema: tão próximo do real que o cérebro começa a aceitar que está bem — e baixa a guarda.</p>
+      <div class="sg">
+        <div class="sc"><span class="sc-icon">👃</span><div class="sc-lbl">Cheiro</div><div class="sc-tx" data-edit>Grama fresca, terra úmida, flores de espécie não identificável. O cheiro mais próximo do mundo real encontrado nos Backrooms. Isso faz chorar algumas pessoas.</div></div>
+        <div class="sc"><span class="sc-icon">👂</span><div class="sc-lbl">Som</div><div class="sc-tx" data-edit>Vento. Pássaros distantes — nunca visíveis. Às vezes crianças brincando muito longe. As vozes nunca ficam mais próximas, não importa o quanto você caminhe em direção a elas.</div></div>
+        <div class="sc"><span class="sc-icon">🌿</span><div class="sc-lbl">Tato</div><div class="sc-tx" data-edit>A grama é real. As árvores são reais — mas têm raízes que se aprofundam de formas impossíveis e não há terra abaixo de certa profundidade. Só concreto.</div></div>
+        <div class="sc"><span class="sc-icon">☀️</span><div class="sc-lbl">Luz</div><div class="sc-tx" data-edit>Difusa, agradável, sem fonte. O "céu" é uma superfície a uns 100m — parece tela de projeção se você olhar com atenção suficiente. Não olhe com atenção suficiente.</div></div>
+      </div>
+      <div class="cena">
+        <div class="cena-lbl">Quando alguém senta num banco e chora</div>
+        <p data-edit>Não é fraqueza. É o cheiro de grama e o vento que faz isso. O cérebro recebe informação de que está tudo bem — e imediatamente compara com o quanto não está, e o contraste é demais.</p>
+        <p data-edit>O grupo deixa. Ninguém fala. Às vezes as pessoas precisam de um momento.</p>
+        <div class="nota">⟶ Cena de normalidade orgânica. Recupera 1 Sanidade. E apaga 1 linha de memória — a felicidade aqui tem custo.</div>
+      </div>
+      <div class="cena">
+        <div class="cena-lbl">Quando tentam seguir as vozes das crianças</div>
+        <p data-edit>Você caminha em direção às vozes por vinte minutos. Elas não ficam mais próximas. Você vai mais rápido. Elas não ficam mais próximas. Você corre.</p>
+        <p data-edit>As vozes param.</p>
+        <p data-edit>Você está exatamente onde começou. O banco está lá. Ainda está quente do seu calor.</p>
+        <div class="nota">⟶ Perda de 1d3 Sanidade e 10 de Sede pela corrida. O Level 9 não tem saída pela força.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEVEL 11 -->
+  <div class="lcard lc11">
+    <div class="lcard-hd">
+      <div>
+        <div class="lcard-num">LEVEL 11</div>
+        <div class="lcard-nome" style="color:var(--tx3)" data-edit>The City — A Cidade Infinita</div>
+      </div>
+      <div><span class="badge bg">● Relativamente seguro</span><span class="badge bb">◆ Facelings amigáveis</span></div>
+    </div>
+    <div class="lcard-body">
+      <p data-edit>Uma metrópole infinita em arquitetura mista — Chicago, São Paulo, Tóquio, cidades que não existem. Tem eletricidade, água corrente, lojas com produtos, Wi-Fi (inutilizável para contato externo). Os Facelings aqui são inusitadamente amigáveis — trabalham nos estabelecimentos, andam nas ruas, acenam. O "Level 11 Effect" torna entidades hostis menos propensas a atacar enquanto aqui.</p>
+      <div class="sg">
+        <div class="sc"><span class="sc-icon">👃</span><div class="sc-lbl">Cheiro</div><div class="sc-tx" data-edit>Cidade — asfalto, comida de rua, exaustão de ar condicionado. O mais familiar de todos. E por isso o mais estranho.</div></div>
+        <div class="sc"><span class="sc-icon">👂</span><div class="sc-lbl">Som</div><div class="sc-tx" data-edit>Rumor de cidade. Tráfego inexistente. Às vezes música de loja. Os Facelings não falam — mas emitem um som como respiração quando passam perto de você.</div></div>
+        <div class="sc"><span class="sc-icon">👁️</span><div class="sc-lbl">Os Facelings</div><div class="sc-tx" data-edit>Humanoides sem rosto — pele lisa onde deveria haver olhos, nariz, boca. Mas seus "rostos" apontam na direção de quem estão ouvindo. Eles ouvem tudo.</div></div>
+        <div class="sc"><span class="sc-icon">🏙️</span><div class="sc-lbl">Escala</div><div class="sc-tx" data-edit>Os prédios são altos demais. As ruas largas demais. A escala humana está levemente errada — como se a cidade foi construída para seres um pouco maiores do que vocês.</div></div>
+      </div>
+      <div class="cena">
+        <div class="cena-lbl">Primeiro contato com um Faceling</div>
+        <p data-edit>Está atrás de um balcão de café. Faz os movimentos de um barista — pega o copo, opera a máquina, coloca a bebida no balcão e a empurra na sua direção. O café está quente. Cheira bem.</p>
+        <p data-edit>Onde deveria estar o rosto, há apenas pele esticada sobre os ossos do crânio. Liso. Sem expressão. E ainda assim você tem a impressão nítida de que está sendo observado com atenção.</p>
+        <div class="nota">⟶ Roll Sanidade 0/1d4. O café é real e consumível — recupera 5 de Fome e 5 de Sede.</div>
+      </div>
+      <div class="cena">
+        <div class="cena-lbl">Quando tentam usar o Wi-Fi</div>
+        <p data-edit>O celular conecta. Sinal cheio. Você abre um aplicativo de mensagem e digita para alguém do mundo real.</p>
+        <p data-edit>A mensagem fica "enviando" por dez segundos. Depois aparece um erro que você nunca viu antes: <em>Destinatário fora da área de cobertura conhecida.</em></p>
+        <p data-edit>Você olha pro celular por um momento.</p>
+        <div class="nota">⟶ Sem mecânica. Só o peso de um momento humano.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEVEL 37 -->
+  <div class="lcard lc37">
+    <div class="lcard-hd">
+      <div>
+        <div class="lcard-num">LEVEL 37</div>
+        <div class="lcard-nome" style="color:var(--bt)" data-edit>Sublimity — The Poolrooms</div>
+      </div>
+      <div><span class="badge bg">● Relativamente seguro</span><span class="badge bb">◆ Profundidades perigosas</span></div>
+    </div>
+    <div class="lcard-body">
+      <p data-edit>Um complexo infinito de piscinas interligadas, parcialmente submersas em água turno-azulada e morna. As superfícies são de azulejo branco cerâmico, idêntico, sem uma marca de dano. A água é segura na parte rasa. As profundidades são outra coisa. Há algo no fundo das piscinas mais fundas — algo que não nada, mas que se move.</p>
+      <div class="sg">
+        <div class="sc"><span class="sc-icon">👃</span><div class="sc-lbl">Cheiro</div><div class="sc-tx" data-edit>Cloro suave — mas não exatamente cloro. Algo como a memória de cloro. O cheiro de piscina pública num domingo de verão que você frequentou na infância.</div></div>
+        <div class="sc"><span class="sc-icon">👂</span><div class="sc-lbl">Som</div><div class="sc-tx" data-edit>Água. A reverberação de água em superfície de azulejo. Sons que ecoam de salas que você não encontrou. E às vezes: o som de alguém mergulhando. Mas quando você vai até a sala de onde veio o som, a superfície está perfeitamente calma.</div></div>
+        <div class="sc"><span class="sc-icon">✋</span><div class="sc-lbl">A água</div><div class="sc-tx" data-edit>Morna, limpa, límpida até certa profundidade. Abaixo de 3 metros, a visibilidade zera. A temperatura cai abruptamente. E o fundo não é onde deveria estar.</div></div>
+        <div class="sc"><span class="sc-icon">💡</span><div class="sc-lbl">Luz</div><div class="sc-tx" data-edit>Difusa, como sol filtrado por água de piscina, sem fonte. Projeta padrões de água no teto mesmo onde não há água. Absolutamente linda. Isso também é perturbador.</div></div>
+      </div>
+      <div class="cena">
+        <div class="cena-lbl">Chegando nas Poolrooms pela primeira vez</div>
+        <p data-edit>A sala que vocês encontram tem água até o tornozelo. O reflexo no teto mostra padrões de luz que deveriam precisar de superfície d'água para existir — mas o teto está seco.</p>
+        <p data-edit>A água está morna. O azulejo é perfeito. A luz é quase bonita. E você tem, pela primeira vez nos Backrooms, a nítida sensação de que este lugar foi feito para ser apreciado.</p>
+        <p data-edit>Isso é o que mais te perturba.</p>
+        <div class="nota">⟶ Recuperar 1d4 Sanidade ao entrar. Perder 1 ao perceber a profundidade impossível da primeira piscina mais funda.</div>
+      </div>
+      <div class="cena">
+        <div class="cena-lbl">Quando alguém mergulha para explorar</div>
+        <p data-edit>A visibilidade é boa até uns 2 metros. Depois piora. Depois zera. Você para de conseguir ver seus próprios braços. E então você sente — não toca, não vê — a presença de algo abaixo de você. Grande. Sem pressa.</p>
+        <p data-edit>Você nada de volta para cima mais rápido do que julgava ser capaz.</p>
+        <div class="nota">⟶ Roll Sanidade 1/1d6. Sem ataque — o que está lá embaixo não tem interesse imediato em vocês.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEVEL 94 -->
+  <div class="lcard lc94">
+    <div class="lcard-hd">
+      <div>
+        <div class="lcard-num">LEVEL 94</div>
+        <div class="lcard-nome" style="color:var(--gt)" data-edit>MOTION — As Colinas e as Casas</div>
+      </div>
+      <div><span class="badge bg">● Seguro durante o dia</span><span class="badge br">■ Perigo extremo à noite</span></div>
+    </div>
+    <div class="lcard-body">
+      <p data-edit>Colinas verdes com casas idênticas no topo — cada casa 20x20m, todas exatamente iguais. Céu azul bebê durante o dia. Às sirenes que tocam música de cartoon dos anos 1900, alegre e inapropriada. À noite, o céu vira negro absoluto, as sirenes param abruptamente — e as Animações saem. Stop motion de tamanho real, elas atacam qualquer coisa que não pareça animada como elas.</p>
+      <div class="sg">
+        <div class="sc"><span class="sc-icon">👃</span><div class="sc-lbl">Cheiro</div><div class="sc-tx" data-edit>Grama, terra, ar fresco. Quase igual ao Level 9 — mas com algo levemente plástico embaixo, como o cheiro de brinquedo novo.</div></div>
+        <div class="sc"><span class="sc-icon">👂</span><div class="sc-lbl">Dia</div><div class="sc-tx" data-edit>Sirenes com música de cartoon — feliz, distante, constante. Vento nas colinas. Nenhum animal.</div></div>
+        <div class="sc"><span class="sc-icon">🌙</span><div class="sc-lbl">Noite</div><div class="sc-tx" data-edit>Silêncio total quando as sirenes param. Depois: o som de stop-motion — movement frame by frame, o clique irregular de algo que se move em saltos ao invés de fluir.</div></div>
+        <div class="sc"><span class="sc-icon">🏠</span><div class="sc-lbl">As casas</div><div class="sc-tx" data-edit>Idênticas por fora. Por dentro: layout diferente em cada uma. Algumas têm réplicas de outros níveis dos Backrooms dentro. Uma tem Level 0 completo dentro de um cômodo do tamanho normal de um quarto.</div></div>
+      </div>
+      <div class="cena">
+        <div class="cena-lbl">Quando as sirenes param — o sinal da noite</div>
+        <p data-edit>O silêncio depois da música é tão abrupto que parece barulho.</p>
+        <p data-edit>No fim da colina mais próxima, uma das casas tem luz na janela. Antes não tinha.</p>
+        <p data-edit>E então você ouve — longe mas se aproximando — o som de algo se movendo que não deveria se mover assim. Clique. Pausa. Clique. Pausa. Como foto por foto. Frame by frame.</p>
+        <div class="nota">⟶ Os personagens têm 10 minutos para encontrar abrigo. As casas são seguras — desde que fiquem quietos e apaguem as luzes.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLASTIC TOWN -->
+  <div class="lcard lcpt">
+    <div class="lcard-hd">
+      <div>
+        <div class="lcard-num">NÍVEL ORIGINAL</div>
+        <div class="lcard-nome" style="color:var(--put)" data-edit>Plastic Town — A Cidade de Plástico</div>
+      </div>
+      <div><span class="badge bpu">◆ Nível original da campanha</span><span class="badge br">■ Perigo: paranoia</span></div>
+    </div>
+    <div class="lcard-body">
+      <p data-edit>Uma cidade de escala real construída inteiramente de plástico colorido — como um brinquedo gigante. Casas, carros, postes, árvores, pessoas. As "pessoas" são manequins de plástico rígido, posicionados em cenas do cotidiano: alguém esperando o ônibus, um casal num restaurante, uma criança num balanço. Quando ninguém está olhando, eles mudam de posição. Nunca são vistos se movendo.</p>
+      <div class="sg">
+        <div class="sc"><span class="sc-icon">👃</span><div class="sc-lbl">Cheiro</div><div class="sc-tx" data-edit>Plástico aquecido — o cheiro de brinquedo deixado ao sol. Levemente tóxico em grandes quantidades. Recomenda-se não ficar mais que 6 horas.</div></div>
+        <div class="sc"><span class="sc-icon">👂</span><div class="sc-lbl">Som</div><div class="sc-tx" data-edit>Silêncio perturbador — o plástico não conduz som como material orgânico. Passos soam abafados. Vozes não ecoam. E às vezes: o estalo de plástico se expandindo no calor. Exatamente como alguém abrindo uma porta.</div></div>
+        <div class="sc"><span class="sc-icon">👁️</span><div class="sc-lbl">Os manequins</div><div class="sc-tx" data-edit>Faces sem expressão, boca levemente aberta, olhos pintados que parecem seguir movimento. Quando você vira de costas e olha de novo, um deles está num ângulo diferente. Nenhum grupo já conseguiu filmar a mudança acontecendo.</div></div>
+        <div class="sc"><span class="sc-icon">🎨</span><div class="sc-lbl">Visual</div><div class="sc-tx" data-edit>Cores primárias — vermelho, azul, amarelo, verde. Tudo saturado demais. O efeito visual depois de horas é dissociativo: o cérebro começa a tratar tudo como não-real.</div></div>
+      </div>
+      <div class="cena">
+        <div class="cena-lbl">Primeira hora — o efeito da Plastic Town</div>
+        <p data-edit>A cidade parece um diorama. Você é grande demais para ela — e depois percebe que não é, que a escala é perfeita, e isso é o que não bate.</p>
+        <p data-edit>O manequim no banco da praça estava olhando para a esquerda quando vocês chegaram. Você tem certeza. Você olha de novo. Está olhando para você. Você olha para os outros. Alguém mais viu?</p>
+        <div class="nota">⟶ Perda de 1 Sanidade por hora no local. Após 4 horas: rol de Sanidade ou o personagem começa a tratar os manequins como pessoas reais.</div>
+      </div>
+      <div class="cena">
+        <div class="cena-lbl">Quando alguém conta os manequins</div>
+        <p data-edit>Você conta 23 na praça central. Você marca no papel. Uma hora depois conta de novo: 24. Você volta ao papel. Conta de novo: 23.</p>
+        <p data-edit>Você não sabe se errou a conta. Você não sabe se um dos seus companheiros é um manequim que estava ali o tempo todo. Você não sabe se um dos seus companheiros é um manequim agora.</p>
+        <div class="nota">⟶ Gatilho para paranoia de doppelganger. Use na sessão 2 ou 3.</div>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- ══════════════════════════════════════════════ -->
 <!-- TABELAS DE SALAS -->
 <!-- ══════════════════════════════════════════════ -->
@@ -1242,5 +2552,3 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 </body>
 </html>
-HTMLEOF
-echo "done: $(wc -c < /home/claude/part1.html) bytes"
